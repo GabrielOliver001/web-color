@@ -1,0 +1,71 @@
+# Primeiro ResourceQuota: Limita os recursos computacionais (CPU e Memória)
+apiVersion: v1
+# Define a versão da API utilizada. 'v1' é usada para recursos básicos, incluindo ResourceQuota.
+
+kind: ResourceQuota
+# Especifica que o recurso a ser criado é um ResourceQuota.
+# O ResourceQuota é usado para limitar ou gerenciar os recursos computacionais em um namespace.
+
+metadata:
+  name: recurso-computacional
+  # Nome do ResourceQuota: 'recurso-computacional'.
+  # Este nome é usado para identificar o ResourceQuota no namespace.
+  namespace: meu-namespace  # Nome do namespace onde será aplicado
+
+spec:
+  # Define as especificações e os limites do ResourceQuota.
+
+  hard:
+    # Define os limites "hard" (valores máximos permitidos no namespace).
+
+    requests.cpu: "250mi"
+    # Define o limite máximo acumulado para solicitações (requests) de CPU no namespace.
+    # '250mi' equivale a 250 millicores ou 0.25 de um núcleo de CPU.
+
+    requests.memory: "250M"
+    # Define o limite máximo acumulado para solicitações (requests) de memória no namespace.
+    # '250M' equivale a 250 megabytes de memória.
+
+    limits.cpu: "100mi"
+    # Define o limite máximo acumulado para limites (limits) de CPU no namespace.
+    # '100mi' equivale a 100 millicores ou 0.1 de um núcleo de CPU.
+
+    limits.memory: "100M"
+    # Define o limite máximo acumulado para limites (limits) de memória no namespace.
+    # '100M' equivale a 100 megabytes de memória.
+
+---
+
+# Segundo ResourceQuota: Limita o número de objetos no namespace
+apiVersion: v1
+# Define a versão da API utilizada.
+
+kind: ResourceQuota
+# Especifica que o recurso a ser criado é um ResourceQuota.
+
+metadata:
+  name: limitacao-objeto
+  # Nome do ResourceQuota: 'limitacao-objeto'.
+  # Este nome é usado para identificar este ResourceQuota.
+  namespace: meu-namespace  # Nome do namespace onde será aplicado
+
+spec:
+  # Define as especificações e os limites do ResourceQuota.
+
+  hard:
+    # Define os limites máximos (hard) para o número de objetos em um namespace.
+
+    pod: "10"
+    # Limita o número total de Pods no namespace a 10.
+
+    services: "2"
+    # Limita o número total de Services no namespace a 2.
+
+    configmaps: "4"
+    # Limita o número total de ConfigMaps no namespace a 4.
+
+    services.loadbalancers: "2"
+    # Limita o número total de Services do tipo LoadBalancer no namespace a 2.
+
+    count/deployment.app: "5"
+    # Limita o número total de Deployments do tipo app (grupo `apps`) no namespace a 5.

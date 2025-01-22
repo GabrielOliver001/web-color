@@ -24,5 +24,18 @@ spec:
                 port: 
                   number: 80
 
-
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-webcolor
+spec:
+  ingressClassName: nginx
+  defaultBackend: #Especifica o backend padrão para lidar com solicitações que não correspondem a nenhuma regra definida no Ingress.
+                  #Geralmente, o defaultBackend é usado para fornecer uma página de erro padrão ou um serviço genérico em caso de falta de correspondência com regras de roteamento.
+                  #Exemplo típico: Mostrar uma página de "404 - Página não encontrada".
+    service:
+      name: service-webcolor-blue
+      port: 
+        number: 80
 

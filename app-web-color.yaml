@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: web-color
+  name: web-color-green
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
-      app: web-color
+      app: web-color-green
   template:
     metadata:
       labels: 
-        app: web-color
+        app: web-color-green
     spec:
       containers:
-        - name: web-color
+        - name: web-color-green
           image: gabrieloliver001/web-color:green
           resources:
             limits:
@@ -32,37 +32,54 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-color
+  name: service-webcolor-green
 spec: 
   selector:
-    app: web-color
+    app: web-color-green
   ports:
     - name: http
       port: 80
       targetPort: 80
-      protocol: TCP
-      nodePort: 32000
-  type: NodePort
-
 ---
 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: web-color-blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-color-blue
+  template:
+    metadata:
+      labels: 
+        app: web-color-blue
+    spec:
+      containers:
+        - name: web-color-blue
+          image: gabrieloliver001/web-color:blue
+          resources:
+            limits:
+              memory: "200Mi"
+              cpu: "200m"
+            requests:
+              memory: "150M"
+              cpu: "150m"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+---
 
-# apiVersion: v1
-# kind: Pod
-# metadata:
-#   name: meu-pod2
-#   labels:
-#     app: web-color
-#     version: green
-# spec:
-#   containers:
-#   - name: web-color
-#     image: kubedevio/web-color:green
-#     resources:
-#       limits:
-#         memory: "128Mi"
-#         cpu: "500m"
-#     ports:
-#       - name: http
-#         containerPort: 80
-#         protocol: TCP
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-webcolor-blue
+spec: 
+  selector:
+    app: web-color-blue
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

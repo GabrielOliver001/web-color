@@ -22,7 +22,7 @@ metadata:
 spec:
   ingressClassName: nginx #Indica que o controlador NGINX gerenciará este Ingress.
   rules:
-    - host: color.127.0.0.1.nip.io #add domínio
+    - host: color.192.168.100.10.nip.io #add domínio
       http: #Define as regras de roteamento baseadas em caminhos HTTP
         paths: # Rota /blue: Solicitações feitas para <Ingress-IP>/blue são encaminhadas para o serviço service-webcolor-blue na porta 80.
           - path: /blue #As solicitações com caminho que começam com /blue serão roteadas para o serviço especificado.
@@ -49,23 +49,43 @@ metadata:
 spec:
   ingressClassName: nginx
   rules: 
-    - host: blue.127.0.0.1.nip.io
+    - host: blue.192.168.100.10.nip.io
       http:
         paths:
-          - path: /blue
+          - path: /
             pathType: Prefix
             backend:
               service: 
                 name: service-webcolor-blue
                 port: 
                   number: 80
-    - host: green.127.0.0.1.nip.io
+    - host: green.192.168.100.10.nip.io
       http:
         paths:
-          - path: /green
+          - path: /
             pathType: Prefix
             backend:
               service: 
                 name: service-webcolor-green
                 port: 
                   number: 80
+
+
+
+# host: blue.127.0.0.1.nip.io
+
+# As solicitações cujo cabeçalho Host corresponde a blue.127.0.0.1.nip.io serão roteadas para o backend especificado.
+# O domínio nip.io é um serviço que resolve automaticamente para o IP embutido no domínio. Neste caso, 127.0.0.1 será resolvido para o endereço de loopback local.
+# path: /
+
+# Todas as requisições para esse host, independente do caminho (por exemplo, /, /api, etc.), serão roteadas para o serviço backend.
+# backend:
+
+# service.name: service-webcolor-blue: O tráfego será encaminhado para o serviço chamado service-webcolor-blue.
+# service.port.number: 80: Porta do serviço backend onde as requisições serão processadas.
+
+
+# Domínio blue.127.0.0.1.nip.io:
+# Todo o tráfego para esse domínio será roteado para o serviço service-webcolor-blue.
+# Domínio green.127.0.0.1.nip.io:
+# Todo o tráfego para esse domínio será roteado para o serviço service-webcolor-green.
